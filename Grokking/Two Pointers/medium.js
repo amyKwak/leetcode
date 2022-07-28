@@ -133,16 +133,16 @@ function search_pair(arr, target_sum, first) {
 
 function dutch_flag_sort(arr) {
   let low = 0,
-    high = arr.length - 1,
-    i = 0;
+    i = 0,
+    high = arr.length - 1;
 
   while (i <= high) {
     if (arr[i] === 0) {
-      swap(arr, i, low);
+      [arr[i], arr[low]] = [arr[low], arr[i]];
       i++;
       low++;
     } else if (arr[i] === 2) {
-      swap(arr, i, high);
+      [arr[i], arr[high]] = [arr[high], arr[i]];
       high--;
     } else {
       i++;
