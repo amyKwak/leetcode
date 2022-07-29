@@ -55,23 +55,5 @@ function reverse(head) {
   return prev;
 }
 
-// BRUTE FORCE SOLUTION
-
-// const is_palindrome_linked_list = (head) => {
-//   let values = [];
-
-//   while (head) {
-//     values.push(head.value);
-//     head = head.next;
-//   }
-
-//   for (let i = 0; i < values.length; i++) {
-//     if (values[i] !== values[values.length - 1 - i]) {
-//       return false;
-//     }
-//   }
-//   return true;
-// };
-
 // Time Complexity: O(N)
-// Space Complexity: O(N)
+// Space Complexity: O(1)
