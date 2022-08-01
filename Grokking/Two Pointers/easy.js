@@ -38,9 +38,9 @@ function pair_with_target_sum(arr, targetSum) {
 // Move all the unique elements at the beginning of the array and after moving return the length of the subarray that has no duplicate in it.
 
 function remove_duplicates(arr) {
-  let nextNonDuplicate = 1;
+  let nextNonDuplicate = 1, i = 1;
 
-  let i = 0;
+
   while (i < arr.length) {
     if (arr[nextNonDuplicate - 1] !== arr[i]) {
       arr[nextNonDuplicate] = arr[i];
