@@ -120,8 +120,8 @@ function search_pair(arr, target_sum, first) {
   return count;
 }
 
-// time Complexity: O(N^2)
-// space Complexity: O(N) required for sorting if we are not using an in-place sorting algorithm
+// Time Complexity: O(N^2)
+// Space Complexity: O(N) required for sorting if we are not using an in-place sorting algorithm
 
 //-----------------------------------------------------------------------------------------------------------------------
 
