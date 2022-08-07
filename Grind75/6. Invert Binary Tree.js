@@ -17,3 +17,6 @@ const invertTree = (root) => {
   root.right = temp;
   return root;
 };
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
