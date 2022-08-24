@@ -22,8 +22,8 @@ const isValid = (s) => {
     return false;
   }
   for (let i = 0; i < s.length; i++) {
-    let curr = s.charAt(i);
-    let top;
+    let curr = s.charAt(i),
+      top;
     if (map[curr]) {
       top = stack.length === 0 ? "#" : stack.pop();
       if (top !== map[curr]) return false;
