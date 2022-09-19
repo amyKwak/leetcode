@@ -12,15 +12,12 @@
 // Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 
 const maxProfit = (prices) => {
-  if (prices.length < 2) {
-    return 0;
+  let result = 0,
+    min = prices[0];
+
+  for (let i = 1; i < prices.length; i++) {
+    min = Math.min(prices[i], min);
+    result = Math.max(result, prices[i] - min);
   }
-  let maxProfit = 0,
-    maxStock = Math.max(prices[prices.length - 1], prices[prices.length - 2]);
-  for (let i = prices.length - 3; i >= 0; i--) {
-    let profit = maxStock - prices[i];
-    maxStock = Math.max(maxStock, prices[i]);
-    maxProfit = Math.max(maxProfit, profit);
-  }
-  return maxProfit;
+  return result;
 };

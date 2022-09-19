@@ -12,11 +12,11 @@
 
 const isValid = (s) => {
   const map = {
-    ")": "(",
-    "}": "{",
-    "]": "[",
-  };
-  const stack = [];
+      ")": "(",
+      "}": "{",
+      "]": "[",
+    },
+    stack = [];
 
   if (!s) {
     return false;
