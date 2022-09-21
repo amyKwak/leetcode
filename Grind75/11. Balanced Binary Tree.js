@@ -22,5 +22,8 @@ const isBalanced = (root) => {
   }
 };
 
+// left 9
+// right 20
+
 // Time Complexity: O(N)
 // Space Complexity: O(1)
