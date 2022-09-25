@@ -18,6 +18,8 @@ const isBalanced = (root) => {
     let left = getHeight(root.left),
       right = getHeight(root.right);
     if (left === -1 || right === -1 || Math.abs(left - right) > 1) return -1;
+
+    // height of a node
     return Math.max(left, right) + 1;
   }
 };

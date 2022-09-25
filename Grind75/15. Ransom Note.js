@@ -6,10 +6,12 @@
 // Output: true
 
 const canConstruct = function (ransomNote, magazine) {
-  const map = {};
   if (magazine.length < ransomNote.length) {
     return false;
   }
+
+  const map = {};
+
   for (let i = 0; i < magazine.length; i++) {
     if (!map[magazine[i]]) {
       map[magazine[i]] = 0;

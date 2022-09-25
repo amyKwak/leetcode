@@ -19,14 +19,7 @@ const MyQueue = () => {
 
 // push element x to the peek of the queue
 MyQueue.prototype.push = function (x) {
-  const newStack = [];
-  while (this.stack.length > 0) {
-    newStack.push(this.stack.pop());
-  }
-  newStack.push(x);
-  while (newStack.length > 0) {
-    this.stack.push(newStack.pop());
-  }
+  this.stack.push(x);
 };
 
 // removes the element from in front of the queue and returns that element
