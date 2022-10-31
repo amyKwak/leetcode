@@ -9,14 +9,20 @@ const containsDuplicate = (nums) => {
   const map = {};
 
   for (let num of nums) {
-    if (map[num]) {
-      return true;
-    } else {
-      map[num] = 1;
-    }
+    if (map[num]) return true;
+    map[num] = 1;
   }
   return false;
 };
 
 // Time Complexity: O(N)
 // Space Complexity: O(N)
+
+// Another solution - uses sort which is slower O (n log n) but improved space complexity O(1)
+
+// const containsDuplicate = (nums) => {
+//   return new Set(nums).size < nums.length;
+// }
+
+// Time Complexity: O(N log N)
+// Space Complexity: O(1)
