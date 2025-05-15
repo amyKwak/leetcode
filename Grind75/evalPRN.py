@@ -1,8 +1,9 @@
-def evalRPN(tokens: list[str]) -> int:
+def evalRPN(self, tokens: List[str]) -> int:
     stack = []
 
     for token in tokens:
         if token in {"+", "-", "*", "/"}:
+
             b = stack.pop()
             a = stack.pop()
 
@@ -10,9 +11,11 @@ def evalRPN(tokens: list[str]) -> int:
                 stack.append(a + b)
             elif token == "-":
                 stack.append(a - b)
+            elif token == "*":
+                stack.append(a * b)
             elif token == "/":
-                stack.append(int(a / b))
-        else: 
+                stack.append(int(a / b)) 
+        else:
             stack.append(int(token))
-
+    
     return stack[0]
