@@ -14,7 +14,7 @@ def oranges_rotting(grid) -> int:
         return 0
     
     minutes = 0
-    directions = [(-1, 0), (-1, 0), (0, -1), (0, 1)]
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
     while queue and fresh > 0:
         for _ in range(len(queue)):
