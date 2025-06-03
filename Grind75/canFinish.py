@@ -1,4 +1,4 @@
-def can_finish(numCourses, prerequisites):
+def canFinish(numCourses, prerequisites):
     graph = [[] for _ in range(numCourses)]
     for dest, src in prerequisites:
         graph[src].append(dest)

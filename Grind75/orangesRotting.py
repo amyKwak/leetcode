@@ -1,4 +1,4 @@
-def oranges_rotting(grid) -> int:
+def orangesRotting(grid) -> int:
     rows, cols = len(grid), len(grid[0])
     queue = deque()
     fresh = 0

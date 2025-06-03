@@ -1,4 +1,4 @@
-def is_valid_BST(root) -> bool:
+def isValidBST(root) -> bool:
     
     def helper(node, low, high):
         if not node:

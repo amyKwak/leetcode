@@ -1,4 +1,4 @@
-def longest_palindrome(s: str) -> int:
+def longestPalindrome(s: str) -> int:
     length = 0
     unpaired = set()
 

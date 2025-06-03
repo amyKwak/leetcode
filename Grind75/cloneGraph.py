@@ -1,4 +1,4 @@
-def clone_graph(node: 'Node') -> 'Node':
+def cloneGraph(node: 'Node') -> 'Node':
     if not node:
         return None
     
