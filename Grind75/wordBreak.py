@@ -26,3 +26,41 @@ def wordBreak(s: str, wordDict: List[str]) -> bool:
 # Space Complexity: O(n + W), where
 #   - O(n) is for the dp array of size n+1,
 #   - O(W) is for storing all dictionary words in a hash set (W = total length of all words).
+
+
+# BFS Solution
+from collections import deque
+from typing import List
+
+def wordBreak(s: str, wordDict: List[str]) -> bool:
+    word_set = set(wordDict)
+    n = len(s)
+    queue = deque([0])    # start from index 0
+    visited = set()       # to avoid reprocessing the same index
+
+    while queue:
+        start = queue.popleft()
+        if start == n:
+            return True   # reached the end via valid segmentation
+        if start in visited:
+            continue      # already tried from this index
+
+        visited.add(start)
+        # Try every word in the dictionary at position `start`
+        for w in word_set:
+            end = start + len(w)
+            if end <= n and s[start:end] == w:
+                queue.append(end)
+
+    return False
+
+
+# Time Complexity: O(n * m * k),
+#   where n = len(s), m = len(wordDict), and k = average length of words in wordDict.
+#   • Each index 0..n−1 is enqueued at most once (due to `visited`).
+#   • At each index, we try up to m words, each comparison costs O(k).
+#
+# Space Complexity: O(n + W),
+#   where n = len(s) (for the queue and visited set) and W = total length of all words
+#   (for storing word_set).
+
