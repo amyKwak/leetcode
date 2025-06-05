@@ -13,7 +13,7 @@ def longestPalindrome(s: str) -> int:
 
 
 # Longest Palindromic Substring
-def longestPalindrome(s: str) -> str:
+def longestPalindrome(s: str) -> st r:
     if not s:
         return ""
 
