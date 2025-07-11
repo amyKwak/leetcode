@@ -1,11 +1,6 @@
 from typing import List
 
 def sortColors(nums: List[int]) -> None:
-    """
-    Sort `nums` in-place so that all 0s (red) come first, then 1s (white), then 2s (blue).
-    Uses the Dutch National Flag algorithm with three pointers.
-    """
-
     # low: boundary for 0s (everything left of low is 0)
     # mid: current index under examination
     # high: boundary for 2s (everything right of high is 2)
