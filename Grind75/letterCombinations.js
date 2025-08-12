@@ -1,4 +1,4 @@
-function letterCombinations(digits) {
+var letterCombinations = function (digits) {
   if (digits.length === 0) return [];
 
   const map = {
@@ -12,24 +12,23 @@ function letterCombinations(digits) {
     9: "wxyz",
   };
 
-  const res = [];
+  const result = [];
   const path = [];
 
-  function backtrack(idx) {
-    // if we've chosen one letter for each digit, record the combination
-    if (idx === digits.length) {
-      res.push(path.join(""));
+  const backtrack = (i) => {
+    if (i === digits.length) {
+      result.push(path.join(""));
       return;
     }
 
-    const letters = map[digits[idx]];
+    const letters = map[digits[i]];
     for (let ch of letters) {
       path.push(ch);
-      backtrack(idx + 1);
+      backtrack(i + 1);
       path.pop();
     }
-  }
+  };
 
   backtrack(0);
-  return res;
-}
+  return result;
+};
