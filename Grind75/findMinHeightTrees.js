@@ -1,6 +1,5 @@
 var findMinHeightTrees = function (n, edges) {
   if (n <= 2) {
-    console.log([Array(n).keys()]);
     return [...Array(n).keys()];
   }
   const adj = Array.from({ length: n }, () => []);

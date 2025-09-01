@@ -1,36 +1,38 @@
 function minWindow(s, t) {
   if (t.length > s.length) return "";
 
-  const need = new Int32Array(128); // counts needed for each char code
-  let kinds = 0; // distinct chars still to satisfy
+  // ASCII is enough per problem (English letters). Use fixed arrays for speed.
+  const need = new Array(128).fill(0);
+  let needKinds = 0; // how many distinct chars still need satisfying
 
-  // Fill need[] and count distinct kinds
   for (let i = 0; i < t.length; i++) {
     const c = t.charCodeAt(i);
-    if (need[c] === 0) kinds++;
+    if (need[c] === 0) needKinds++;
     need[c]++;
   }
 
-  let have = 0;
-  let bestStart = 0,
-    bestLen = Infinity;
-  let l = 0;
+  const have = new Array(128).fill(0);
+  let formed = 0; // how many distinct chars currently satisfied
+  let bestLen = Infinity,
+    bestStart = 0;
 
-  for (let r = 0; r < s.length; r++) {
+  for (let l = 0, r = 0; r < s.length; r++) {
     const rc = s.charCodeAt(r);
-    need[rc]--; // include s[r] in the window
-    if (need[rc] === 0) have++; // just met this char's quota
+    have[rc]++;
 
-    // shrink while all quotas are met
-    while (have === kinds) {
+    if (need[rc] > 0 && have[rc] === need[rc]) formed++;
+
+    // Try to shrink from the left while all requirements are met
+    while (formed === needKinds) {
       const winLen = r - l + 1;
       if (winLen < bestLen) {
         bestLen = winLen;
         bestStart = l;
       }
-      const lc = s.charCodeAt(l++);
-      need[lc]++; // remove s[l-1] from window
-      if (need[lc] === 1) have--; // fell below quota for that char
+      const lc = s.charCodeAt(l);
+      if (need[lc] > 0 && have[lc] === need[lc]) formed--;
+      have[lc]--;
+      l++;
     }
   }
 
