@@ -1,196 +1,101 @@
-class MinBinaryHeap {
-  constructor() {
-    this.values = [];
-  }
-
-  insert(element) {
-    this.values.push(element);
-    this.bubbleUp();
-  }
-
-  bubbleUp() {
-    let ind = this.values.length - 1;
-    let element = this.values[ind];
-
-    while (ind > 0) {
-      let parentInd = Math.floor((ind - 1) / 2);
-      let parent = this.values[parentInd];
-
-      if (element >= parent) break;
-
-      this.values[ind] = parent;
-      this.values[parentInd] = element;
-      ind = parentInd;
-    }
-  }
-
-  extractMin() {
-    let min = this.values[0];
-    let end = this.values.pop();
-
-    if (this.values.length > 0) {
-      this.values[0] = end;
-      this.sinkDown();
-    }
-
-    return min;
-  }
-
-  sinkDown() {
-    let ind = 0;
-    let element = this.values[0];
-    let length = this.values.length;
-
-    while (true) {
-      let leftChildInd = 2 * ind + 1;
-      let rightChildInd = 2 * ind + 2;
-      let leftChild, rightChild;
-      let swap = null;
-
-      if (leftChildInd < length) {
-        leftChild = this.values[leftChildInd];
-
-        if (leftChild < element) {
-          swap = leftChildInd;
-        }
-      }
-
-      if (rightChildInd < length) {
-        rightChild = this.values[rightChildInd];
-
-        if (
-          (swap === null && rightChild < element) ||
-          (swap !== null && rightChild < leftChild)
-        ) {
-          swap = rightChildInd;
-        }
-      }
-
-      if (swap === null) break;
-
-      this.values[ind] = this.values[swap];
-      this.values[swap] = element;
-      ind = swap;
-    }
+class Heap {
+  constructor(compareFn) {
+    this.data = [];
+    this.compare = compareFn; // comparison decides min vs max
   }
 
   size() {
-    return this.values.length;
+    return this.data.length;
   }
 
   peek() {
-    return this.values[0];
-  }
-}
-
-class MaxBinaryHeap {
-  constructor() {
-    this.values = [];
+    return this.data[0];
   }
 
-  insert(element) {
-    this.values.push(element);
-    this.bubbleUp();
+  push(value) {
+    this.data.push(value);
+    this._heapifyUp();
   }
 
-  bubbleUp() {
-    let ind = this.values.length - 1;
-    let element = this.values[ind];
+  pop() {
+    if (this.size() === 1) return this.data.pop();
 
-    while (ind > 0) {
-      let parentInd = Math.floor((ind - 1) / 2);
-      let parent = this.values[parentInd];
+    const root = this.data[0];
+    this.data[0] = this.data.pop();
+    this._heapifyDown();
+    return root;
+  }
 
-      if (element <= parent) break;
-
-      this.values[ind] = parent;
-      this.values[parentInd] = element;
-      ind = parentInd;
+  _heapifyUp() {
+    let i = this.size() - 1;
+    while (i > 0) {
+      let parent = Math.floor((i - 1) / 2);
+      if (this.compare(this.data[i], this.data[parent])) {
+        [this.data[i], this.data[parent]] = [this.data[parent], this.data[i]];
+        i = parent;
+      } else break;
     }
   }
 
-  extractMax() {
-    let max = this.values[0];
-    let end = this.values.pop();
-
-    if (this.values.length > 0) {
-      this.values[0] = end;
-      this.sinkDown();
-    }
-
-    return max;
-  }
-
-  sinkDown() {
-    let ind = 0;
-    let element = this.values[0];
-    let length = this.values.length;
-
+  _heapifyDown() {
+    let i = 0,
+      n = this.size();
     while (true) {
-      let leftChildInd = 2 * ind + 1;
-      let rightChildInd = 2 * ind + 2;
-      let leftChild, rightChild;
-      let swap = null;
+      let left = 2 * i + 1,
+        right = 2 * i + 2,
+        target = i;
 
-      if (leftChildInd < length) {
-        leftChild = this.values[leftChildInd];
-
-        if (leftChild > element) {
-          swap = leftChildInd;
-        }
+      if (left < n && this.compare(this.data[left], this.data[target])) {
+        target = left;
       }
-
-      if (rightChildInd < length) {
-        rightChild = this.values[rightChildInd];
-
-        if (
-          (swap === null && rightChild > element) ||
-          (swap !== null && rightChild > leftChild)
-        ) {
-          swap = rightChildInd;
-        }
+      if (right < n && this.compare(this.data[right], this.data[target])) {
+        target = right;
       }
-
-      if (swap === null) break;
-
-      this.values[ind] = this.values[swap];
-      this.values[swap] = element;
-      ind = swap;
+      if (target !== i) {
+        [this.data[i], this.data[target]] = [this.data[target], this.data[i]];
+        i = target;
+      } else break;
     }
-  }
-
-  size() {
-    return this.values.length;
-  }
-
-  peek() {
-    return this.values[0];
   }
 }
 
-var MedianFinder = function () {
-  this.low = new MaxBinaryHeap();
-  this.high = new MinBinaryHeap();
-};
+// MaxHeap = compare child > parent
+class MaxHeap extends Heap {
+  constructor() {
+    super((a, b) => a > b);
+  }
+}
 
-MedianFinder.prototype.addNum = function (val) {
-  if (this.low.size() === 0 || val < this.low.peek()) {
-    this.low.insert(val);
-  } else {
-    this.high.insert(val);
+// MinHeap = compare child < parent
+class MinHeap extends Heap {
+  constructor() {
+    super((a, b) => a < b);
+  }
+}
+
+class MedianFinder {
+  constructor() {
+    this.low = new MaxHeap(); // max-heap (lower half)
+    this.high = new MinHeap(); // min-heap (upper half)
   }
 
-  if (this.low.size() > this.high.size() + 1) {
-    this.high.insert(this.low.extractMax());
-  } else if (this.high.size() > this.low.size()) {
-    this.low.insert(this.high.extractMin());
-  }
-};
+  addNum(num) {
+    // Step 1: push into max-heap first
+    this.low.push(num);
 
-MedianFinder.prototype.findMedian = function () {
-  if (this.low.size() > this.high.size()) {
-    return this.low.peek();
-  } else {
-    return (this.low.peek() + this.high.peek()) / 2;
+    // Step 2: balance by moving top of low → high
+    this.high.push(this.low.pop());
+
+    // Step 3: maintain size property (low >= high)
+    if (this.low.size() < this.high.size()) {
+      this.low.push(this.high.pop());
+    }
   }
-};
+
+  findMedian() {
+    if (this.low.size() > this.high.size()) {
+      return this.low.peek(); // odd total → root of maxHeap
+    }
+    return (this.low.peek() + this.high.peek()) / 2; // even total
+  }
+}
