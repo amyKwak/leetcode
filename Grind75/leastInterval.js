@@ -1,25 +1,11 @@
-var leastInterval = function (tasks, n) {
-  const freq = Array(26).fill(0);
-  const A = "A".charCodeAt(0);
-  for (const task of tasks) {
-    freq[task.charCodeAt(0) - A]++;
+function leastInterval(tasks, n) {
+  const count = new Array(26).fill(0);
+  for (const t of tasks) {
+    count[t.charCodeAt(0) - 65]++;
   }
 
-  freq.sort((a, b) => b - a);
-  const maxFreq = freq[0];
+  const maxFreq = Math.max(...count);
+  const maxCount = count.filter((c) => c === maxFreq).length;
 
-  let countMax = 0;
-  for (const f of freq) {
-    if (f === maxFreq) {
-      countMax++;
-    } else {
-      break;
-    }
-  }
-
-  const partCount = maxFreq - 1;
-  const partLength = n + 1;
-  const minIntervals = partCount * partLength + countMax;
-
-  return Math.max(tasks.length, minIntervals);
-};
+  return Math.max(tasks.length, (maxFreq - 1) * (n + 1) + maxCount);
+}
