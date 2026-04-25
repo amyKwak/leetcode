@@ -32,3 +32,6 @@ function exist(board, word) {
 
   return false;
 }
+
+// time: O(m x n x 4^L), L = len(word)
+// space: O(L)
