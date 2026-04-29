@@ -1,7 +1,3 @@
-/**
- * @param {number} key
- * @param {number} value
- */
 function Node(key, val) {
   this.key = key;
   this.val = val;
@@ -9,9 +5,6 @@ function Node(key, val) {
   this.next = null;
 }
 
-/**
- * @param {number} capacity
- */
 var LRUCache = function (capacity) {
   this.capacity = capacity;
   this.cache = new Map();

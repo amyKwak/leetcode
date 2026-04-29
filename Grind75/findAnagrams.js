@@ -1,40 +1,44 @@
-var findAnagrams = function (s, p) {
-  const res = [];
-  const need = new Array(26).fill(0);
-  const aCode = "a".charCodeAt(0);
-  // Count frequency of each char in p
+function findAnagrams(s, p) {
+  if (p.length > s.length) return [];
+
+  const result = [];
+  const pCount = new Array(26).fill(0);
+  const wCount = new Array(26).fill(0);
+  const a = "a".charCodeAt(0);
+
+  // Build frequency map for p and the first window
   for (let i = 0; i < p.length; i++) {
-    need[p.charCodeAt(i) - aCode]++;
+    pCount[p.charCodeAt(i) - a]++;
+    wCount[s.charCodeAt(i) - a]++;
   }
 
-  let left = 0,
-    right = 0,
-    toMatch = p.length;
-
-  // Expand the window with right pointer
-  while (right < s.length) {
-    const rIdx = s.charCodeAt(right) - aCode;
-    // If this char is still needed, we'll match one
-    if (need[rIdx] > 0) toMatch--;
-    // Use up one count (may go negative)
-    need[rIdx]--;
-    right++;
-
-    // When window size equals p.length, check for an anagram
-    if (toMatch === 0) {
-      res.push(left);
-    }
-
-    // Shrink window from the left if its size exceeds p.length
-    if (right - left === p.length) {
-      const lIdx = s.charCodeAt(left) - aCode;
-      // If this char was part of a complete match, we'll need it again
-      if (need[lIdx] >= 0) toMatch++;
-      // Put the char back into need[]
-      need[lIdx]++;
-      left++;
-    }
+  // Track how many characters are currently "matched"
+  let matches = 0;
+  for (let i = 0; i < 26; i++) {
+    if (pCount[i] === wCount[i]) matches++;
   }
 
-  return res;
-};
+  // Slide the window across s
+  for (let i = p.length; i < s.length; i++) {
+    if (matches === 26) result.push(i - p.length);
+
+    const add = s.charCodeAt(i) - a; // incoming char
+    const remove = s.charCodeAt(i - p.length) - a; // outgoing char
+
+    // Update window for incoming character
+    wCount[add]++;
+    if (wCount[add] === pCount[add]) matches++;
+    else if (wCount[add] === pCount[add] + 1) matches--;
+
+    // Update window for outgoing character
+    wCount[remove]--;
+    if (wCount[remove] === pCount[remove]) matches++;
+    else if (wCount[remove] === pCount[remove] - 1) matches--;
+  }
+
+  if (matches === 26) result.push(s.length - p.length);
+
+  return result;
+  // Time: O(n) — single pass through s, O(1) work per step
+  // Space: O(1) — two fixed-size arrays of 26 (lowercase ASCII only)
+}

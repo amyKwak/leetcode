@@ -32,3 +32,6 @@ var letterCombinations = function (digits) {
   backtrack(0);
   return result;
 };
+
+// time: O(4^N)
+// space: O(4^N)
