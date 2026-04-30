@@ -31,4 +31,7 @@ const findMinHeightTrees = (n, edges) => {
   }
 
   return leaves;
+
+  // Time: O(n) — each node and edge is processed at most once during leaf trimming
+  // Space: O(n) — adjacency list stores all n nodes and their connections
 };
