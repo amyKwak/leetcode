@@ -26,3 +26,5 @@ function decodeString(s) {
 
 // Time: O(n * k)
 // Space: O(n)
+
+console.log(decodeString("3[a]2[bc]"));
