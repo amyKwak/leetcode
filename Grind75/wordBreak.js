@@ -22,19 +22,23 @@ var wordBreak = function (s, wordDict) {
 };
 
 // DP solution
-var wordBreak = function (s, wordDict) {
-  const wordSet = new Set(wordDict); // Faster lookup
-  const dp = new Array(s.length + 1).fill(false);
-  dp[0] = true; // Empty string is always "breakable"
+function wordBreak(s, wordDict) {
+  const wordSet = new Set(wordDict);
+  const n = s.length;
+  const dp = new Array(n + 1).fill(false);
+  dp[0] = true;
 
-  for (let i = 1; i <= s.length; i++) {
+  for (let i = 1; i <= n; i++) {
     for (let j = 0; j < i; j++) {
       if (dp[j] && wordSet.has(s.substring(j, i))) {
         dp[i] = true;
-        break; // No need to check more j's
+        break;
       }
     }
   }
 
-  return dp[s.length];
-};
+  return dp[n];
+}
+
+// Time complexity: O(n^2) - n is the length of s, for each i we check all j < i, substring is O(n)
+// Space complexity: O(n) - dp array of size n+1, plus wordSet of size m (m = number of words)
