@@ -8,27 +8,27 @@ function spiralOrder(matrix) {
   let right = matrix[0].length - 1;
 
   while (top <= bottom && left <= right) {
-    // Traverse from Left to Right
-    for (let i = left; i <= right; i++) {
-      result.push(matrix[top][i]);
+    // traverse top row left to right
+    for (let j = left; j <= right; j++) {
+      result.push(matrix[top][j]);
     }
     top++;
 
-    // Traverse from Top to Bottom
+    // traverse right column top to bottom
     for (let i = top; i <= bottom; i++) {
       result.push(matrix[i][right]);
     }
     right--;
 
-    // Traverse from Right to Left (if rows remain)
+    // traverse bottom row right to left (if still valid)
     if (top <= bottom) {
-      for (let i = right; i >= left; i--) {
-        result.push(matrix[bottom][i]);
+      for (let j = right; j >= left; j--) {
+        result.push(matrix[bottom][j]);
       }
       bottom--;
     }
 
-    // Traverse from Bottom to Top (if columns remain)
+    // traverse left column bottom to top (if still valid)
     if (left <= right) {
       for (let i = bottom; i >= top; i--) {
         result.push(matrix[i][left]);
@@ -39,3 +39,6 @@ function spiralOrder(matrix) {
 
   return result;
 }
+
+// Time complexity: O(m * n) - every element is visited exactly once
+// Space complexity: O(1) - excluding the output array, only constant extra space used for boundary pointers

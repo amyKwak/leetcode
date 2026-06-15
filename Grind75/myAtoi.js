@@ -1,33 +1,37 @@
 function myAtoi(s) {
-  // Step 1: Trim leading whitespaces
-  s = s.trim();
-
-  if (s.length === 0) return 0;
-
-  // Step 2: Handle optional sign
-  let i = 0,
-    sign = 1;
-  if (s[i] === "-" || s[i] === "+") {
-    sign = s[i] === "-" ? -1 : 1;
-    i++;
-  }
-
-  // Step 3: Convert digits using Number()
-  let result = 0;
-  while (i < s.length && s[i] >= "0" && s[i] <= "9") {
-    result = result * 10 + Number(s[i]);
-    i++;
-  }
-
-  // Step 4: Apply sign
-  result *= sign;
-
-  // Step 5: Clamp to 32-bit signed integer range
-  const INT_MIN = -(2 ** 31);
   const INT_MAX = 2 ** 31 - 1;
+  const INT_MIN = -(2 ** 31);
 
-  if (result < INT_MIN) return INT_MIN;
-  if (result > INT_MAX) return INT_MAX;
+  let i = 0;
+  const n = s.length;
 
-  return result;
+  // skip leading whitespace
+  while (i < n && s[i] === " ") i++;
+
+  if (i === n) return 0;
+
+  // check sign
+  let sign = 1;
+  if (s[i] === "+" || s[i] === "-") {
+    if (s[i] === "-") sign = -1;
+    i++;
+  }
+
+  // read digits
+  let result = 0;
+  while (i < n && s[i] >= "0" && s[i] <= "9") {
+    const digit = s[i].charCodeAt(0) - "0".charCodeAt(0);
+    result = result * 10 + digit;
+
+    // clamp early to avoid overflow issues
+    if (sign === 1 && result > INT_MAX) return INT_MAX;
+    if (sign === -1 && -result < INT_MIN) return INT_MIN;
+
+    i++;
+  }
+
+  return sign * result;
 }
+
+// Time complexity: O(n) - single pass through the string, n is the length of s
+// Space complexity: O(1) - only constant extra space used for pointers and accumulator
