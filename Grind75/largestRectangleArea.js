@@ -1,21 +1,21 @@
-// Largest Rectangle in Histogram — O(n) time, O(n) space
 function largestRectangleArea(heights) {
-  const stack = []; // each item: { index: startIndex, height }
+  const stack = []; // stores indices
   let maxArea = 0;
 
   for (let i = 0; i <= heights.length; i++) {
-    const h = i === heights.length ? 0 : heights[i]; // sentinel 0 at the end
-    let start = i;
+    const currHeight = i === heights.length ? 0 : heights[i];
 
-    // Maintain a strictly increasing stack of heights
-    while (stack.length && stack[stack.length - 1].height > h) {
-      const { index, height } = stack.pop();
-      maxArea = Math.max(maxArea, height * (i - index));
-      start = index; // extend the start to the left for the next bar
+    while (stack.length > 0 && currHeight < heights[stack[stack.length - 1]]) {
+      const height = heights[stack.pop()];
+      const width = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;
+      maxArea = Math.max(maxArea, height * width);
     }
 
-    stack.push({ index: start, height: h });
+    stack.push(i);
   }
 
   return maxArea;
 }
+
+// Time complexity: O(n) - each index is pushed and popped from the stack at most once
+// Space complexity: O(n) - stack can hold up to n indices in the worst case
