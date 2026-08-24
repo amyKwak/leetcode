@@ -43,3 +43,21 @@ var kClosest = function (points, k) {
   quickSelect(0, points.length - 1, k);
   return points.slice(0, k);
 };
+
+
+function kClosest(points, k) {
+  const heap = []; // max-heap of size k, keyed by distance
+
+  for (const [x, y] of points) {
+    const dist = x * x + y * y; // skip sqrt — relative order is the same
+    heap.push([dist, x, y]);
+    heap.sort((a, b) => b[0] - a[0]); // keep sorted descending (max at front)
+
+    if (heap.length > k) heap.shift(); // evict farthest point
+  }
+
+  return heap.map(([, x, y]) => [x, y]);
+
+  // Time  O(n log k) — with a proper heap; O(nk) with array simulation above
+  // Space O(k)      — heap never exceeds k elements
+}

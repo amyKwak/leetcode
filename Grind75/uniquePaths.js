@@ -25,3 +25,18 @@ function uniquePaths(m, n) {
 // Examples
 console.log(uniquePaths(3, 7)); // 28
 console.log(uniquePaths(3, 3)); // 6
+
+function uniquePaths(m, n) {
+  const dp = new Array(n).fill(1);
+
+  for (let row = 1; row < m; row++) {
+    for (let col = 1; col < n; col++) {
+      dp[col] += dp[col - 1];
+    }
+  }
+
+  return dp[n - 1];
+
+  // Time  O(m·n) — visits every cell once
+  // Space O(n)   — single row instead of full m×n table
+}

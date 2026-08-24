@@ -39,6 +39,6 @@ function findAnagrams(s, p) {
   if (matches === 26) result.push(s.length - p.length);
 
   return result;
-  // Time: O(n) — single pass through s, O(1) work per step
-  // Space: O(1) — two fixed-size arrays of 26 (lowercase ASCII only)
 }
+// Time: O(n) — single pass through s, O(1) work per step
+// Space: O(1) — two fixed-size arrays of 26 (lowercase ASCII only)

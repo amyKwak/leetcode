@@ -1,53 +1,37 @@
-// MinStack Implementation in JavaScript
-// Supports push, pop, top, and retrieving the minimum in O(1) time.
-
-export default class MinStack {
+class MinStack {
   constructor() {
-    this.stack = []; // main stack to hold values
-    this.minStack = []; // parallel stack to hold current minimums
+    this.stack = [];    // stores actual values
+    this.minStack = []; // tracks current minimum at each depth
   }
 
-  /**
-   * Pushes a value onto the stack.
-   * @param {number} val
-   * @return {void}
-   */
   push(val) {
     this.stack.push(val);
-    // If minStack is empty or val is new minimum, push val;
-    // otherwise, duplicate the current min to keep stacks aligned
-    if (this.minStack.length === 0 || val <= this.getMin()) {
-      this.minStack.push(val);
-    } else {
-      this.minStack.push(this.getMin());
-    }
+    const currentMin = this.minStack.length === 0
+      ? val
+      : Math.min(val, this.getMin());
+    this.minStack.push(currentMin);
+
+    // Time  O(1)
   }
 
-  /**
-   * Removes the top element from the stack.
-   * @return {void}
-   */
   pop() {
-    if (this.stack.length === 0) return;
     this.stack.pop();
-    this.minStack.pop();
+    this.minStack.pop(); // keep stacks in sync
+
+    // Time  O(1)
   }
 
-  /**
-   * Gets the top element.
-   * @return {number}
-   */
   top() {
     return this.stack[this.stack.length - 1];
+
+    // Time  O(1)
   }
 
-  /**
-   * Retrieves the minimum element in the stack.
-   * @return {number}
-   */
   getMin() {
     return this.minStack[this.minStack.length - 1];
-  }
-}
 
-// All operations — push, pop, top, getMin — run in O(1) time and O(n) extra space.
+    // Time  O(1)
+  }
+
+  // Space  O(n) — two stacks growing in parallel
+}

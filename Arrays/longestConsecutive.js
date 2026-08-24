@@ -1,19 +1,18 @@
 function longestConsecutive(nums) {
-  const set = new Set(nums);
-  let longest = 0;
+  const numSet = new Set(nums);
+  let maxLen = 0;
 
-  for (const num of nums) {
-    if (!set.has(num - 1)) {
-      let length = 1;
+  for (const num of numSet) {
+    // only start counting from the beginning of a sequence
+    if (numSet.has(num - 1)) continue;
 
-      while (set.has(num + length)) length++;
-
-      longest = Math.max(longest, length);
-    }
+    let len = 1;
+    while (numSet.has(num + len)) len++;
+    maxLen = Math.max(maxLen, len);
   }
 
-  return longest;
-}
+  return maxLen;
 
-// Time: O(n)
-// Space: O(n)
+  // Time  O(n) — each number is visited at most twice (once in outer loop, once in while)
+  // Space O(n) — the hash set
+}
